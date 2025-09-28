@@ -34,30 +34,7 @@ A comprehensive Personal Finance Tracker API built with Node.js, Express, MongoD
 
 3. **Environment Setup**
    ```bash
-   cp env.example .env
-   ```
-   
-   Update the `.env` file with your configuration:
-   ```env
-   # Database
-   MONGODB_URI=mongodb://localhost:27017/finance-tracker
-   
-   # JWT
-   JWT_SECRET=your-super-secret-jwt-key-here
-   JWT_EXPIRE=7d
-   
-   # Cloudinary (for file uploads)
-   CLOUDINARY_CLOUD_NAME=your-cloud-name
-   CLOUDINARY_API_KEY=your-api-key
-   CLOUDINARY_API_SECRET=your-api-secret
-   
-   # Server
-   PORT=5000
-   NODE_ENV=development
-   
-   # Rate Limiting
-   RATE_LIMIT_WINDOW_MS=900000
-   RATE_LIMIT_MAX_REQUESTS=100
+ 
    ```
 
 4. **Start the server**
