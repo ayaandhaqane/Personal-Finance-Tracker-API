@@ -32,12 +32,7 @@ A comprehensive Personal Finance Tracker API built with Node.js, Express, MongoD
    npm install
    ```
 
-3. **Environment Setup**
-   ```bash
- 
-   ```
-
-4. **Start the server**
+3. **Start the server**
    ```bash
    # Development mode
    npm run dev
