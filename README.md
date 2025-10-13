@@ -52,17 +52,35 @@ A comprehensive full-stack web application for managing personal finances, built
    cd ../backend && npm install
    ```
 
-3. **Configure Environment Variables**
-   Create a `.env` file in the `backend` directory:
+3. **Environment Setup**
+   ```bash
+   cp env.example .env
+   ```
+   
+   Update the `.env` file with your configuration:
    ```env
-   MONGODB_URI=your_mongodb_atlas_connection_string
-   JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+   # Database
+   MONGODB_URI=mongodb://localhost:27017/finance-tracker
+   
+   # JWT
+   JWT_SECRET=your-super-secret-jwt-key-here
    JWT_EXPIRE=7d
+   
+   # Cloudinary (for file uploads)
+   CLOUDINARY_CLOUD_NAME=your-cloud-name
+   CLOUDINARY_API_KEY=your-api-key
+   CLOUDINARY_API_SECRET=your-api-secret
+   
+   # Server
    PORT=5000
    NODE_ENV=development
+   
+   # Rate Limiting
+   RATE_LIMIT_WINDOW_MS=900000
+   RATE_LIMIT_MAX_REQUESTS=100
    ```
 
-4. **Start the application**
+4. **Start the server**
    ```bash
    # Start both frontend and backend
    npm run dev
