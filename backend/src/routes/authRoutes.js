@@ -168,5 +168,15 @@ router.post('/login', validate(loginSchema), login);
  *               $ref: '#/components/schemas/Error'
  */
 router.get('/profile', protect, getProfile);
+router.get('/me', protect, getProfile);
+
+// Test endpoint without authentication
+router.get('/test', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Auth routes are working',
+    timestamp: new Date().toISOString()
+  });
+});
 
 export default router;

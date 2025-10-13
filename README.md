@@ -1,228 +1,281 @@
-# Personal Finance Tracker API
+# 💰 Personal Finance Tracker
 
-A comprehensive Personal Finance Tracker API built with Node.js, Express, MongoDB, and JWT authentication. This API allows users to track their income and expenses, organize transactions into categories, upload profile pictures, and view monthly summaries.
+A comprehensive full-stack web application for managing personal finances, built with React, Node.js, Express, and MongoDB. Track income, expenses, analyze spending patterns, and get personalized financial insights.
 
-## 🚀 Features
+![Personal Finance Tracker](https://img.shields.io/badge/React-19.1.1-blue) ![Node.js](https://img.shields.io/badge/Node.js-Express-green) ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green) ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.1.14-blue)
 
-- **User Authentication**: JWT-based authentication with registration, login, and profile management
-- **Transaction Management**: Full CRUD operations for income and expense tracking
-- **Category Management**: Predefined categories for better organization
-- **File Upload**: Profile picture uploads using Cloudinary
-- **Monthly Summaries**: Detailed monthly financial summaries by category
-- **Admin Dashboard**: Admin-only analytics and overview
-- **Security**: Rate limiting, CORS, Helmet, and input validation
-- **Documentation**: Comprehensive Swagger API documentation
+## ✨ Features
 
-## 📋 Prerequisites
+### 🔐 Authentication & Security
+- User registration and login with JWT authentication
+- Secure password hashing with bcrypt
+- Protected routes and API endpoints
+- Rate limiting and security middleware
 
-- Node.js (v14 or higher)
-- MongoDB (local or cloud instance)
-- Cloudinary account (for file uploads)
+### 📊 Financial Management
+- **Transaction Management**: Add, edit, delete income and expense transactions
+- **Category Management**: Organize transactions with custom categories
+- **Real-time Analytics**: Dynamic reports with actual data from your transactions
+- **Financial Health Score**: AI-powered assessment of your financial habits
 
-## 🛠️ Installation
+### 📈 Advanced Analytics & Reports
+- **Monthly Breakdown**: Visual charts showing income vs expenses over time
+- **Category Analysis**: Pie charts and breakdowns by spending categories
+- **Trend Analysis**: Growth rates, savings rates, and spending patterns
+- **Personalized Recommendations**: AI-driven financial advice based on your data
+
+### 🎨 Modern UI/UX
+- Responsive design with TailwindCSS
+- Interactive charts and visualizations
+- Dark/light theme support
+- Mobile-first approach
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js (v16 or higher)
+- MongoDB Atlas account (free tier available)
+- Git
+
+### Installation
 
 1. **Clone the repository**
    ```bash
    git clone <your-repo-url>
-   cd personal-finance-tracker-api
+   cd capstoneProject
    ```
 
 2. **Install dependencies**
    ```bash
    npm install
+   cd frontend && npm install
+   cd ../backend && npm install
    ```
 
-3. **Environment Setup**
-   ```bash
-   cp env.example .env
-   ```
-   
-   Update the `.env` file with your configuration:
+3. **Configure Environment Variables**
+   Create a `.env` file in the `backend` directory:
    ```env
-   # Database
-   MONGODB_URI=mongodb://localhost:27017/finance-tracker
-   
-   # JWT
-   JWT_SECRET=your-super-secret-jwt-key-here
+   MONGODB_URI=your_mongodb_atlas_connection_string
+   JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
    JWT_EXPIRE=7d
-   
-   # Cloudinary (for file uploads)
-   CLOUDINARY_CLOUD_NAME=your-cloud-name
-   CLOUDINARY_API_KEY=your-api-key
-   CLOUDINARY_API_SECRET=your-api-secret
-   
-   # Server
    PORT=5000
    NODE_ENV=development
-   
-   # Rate Limiting
-   RATE_LIMIT_WINDOW_MS=900000
-   RATE_LIMIT_MAX_REQUESTS=100
    ```
 
-4. **Start the server**
+4. **Start the application**
    ```bash
-   # Development mode
+   # Start both frontend and backend
    npm run dev
    
-   # Production mode
-   npm start
+   # Or start individually:
+   # Backend only
+   npm run server
+   
+   # Frontend only
+   npm run client
    ```
 
-## 📚 API Documentation
+5. **Access the application**
+   - Frontend: http://localhost:5173
+   - Backend API: http://localhost:5000
+   - API Documentation: http://localhost:5000/docs
 
-Once the server is running, visit:
-- **Swagger Documentation**: `http://localhost:5000/docs`
-- **Health Check**: `http://localhost:5000/health`
+## 🔑 Demo Credentials
 
-## 🔗 API Endpoints
+For testing purposes, you can use these demo credentials:
+- **Email**: `demo@example.com`
+- **Password**: `demo123`
+
+Or create your own account by clicking "create a new account" on the login page.
+
+## 🏗️ Project Structure
+
+```
+capstoneProject/
+├── backend/                 # Node.js/Express API
+│   ├── src/
+│   │   ├── config/         # Database and cloudinary config
+│   │   ├── controllers/    # Route controllers
+│   │   ├── middleware/     # Auth, validation, error handling
+│   │   ├── models/         # MongoDB schemas
+│   │   ├── routes/         # API routes
+│   │   ├── utils/          # Helper functions
+│   │   └── validators/     # Input validation schemas
+│   └── package.json
+├── frontend/               # React frontend
+│   ├── src/
+│   │   ├── components/     # Reusable components
+│   │   ├── contexts/       # React contexts
+│   │   ├── pages/          # Page components
+│   │   ├── services/       # API service functions
+│   │   └── assets/         # Static assets
+│   └── package.json
+└── package.json           # Root package.json
+```
+
+## 📡 API Endpoints
 
 ### Authentication
 - `POST /api/auth/register` - Register a new user
-- `POST /api/auth/login` - Login user
-- `GET /api/auth/profile` - Get user profile (Protected)
+- `POST /api/auth/login` - User login
+- `GET /api/auth/me` - Get current user profile
+- `PUT /api/auth/profile` - Update user profile
 
 ### Transactions
-- `GET /api/transactions` - Get all transactions (Protected)
-- `GET /api/transactions/:id` - Get single transaction (Protected)
-- `POST /api/transactions` - Create new transaction (Protected)
-- `PUT /api/transactions/:id` - Update transaction (Protected)
-- `DELETE /api/transactions/:id` - Delete transaction (Protected)
-- `GET /api/transactions/monthly-summary` - Get monthly summary (Protected)
+- `GET /api/transactions` - Get all transactions
+- `POST /api/transactions` - Create new transaction
+- `PUT /api/transactions/:id` - Update transaction
+- `DELETE /api/transactions/:id` - Delete transaction
+- `GET /api/transactions/stats` - Get transaction statistics
 
 ### Categories
-- `GET /api/categories` - Get predefined categories
+- `GET /api/categories` - Get all categories
+- `POST /api/categories` - Create new category
+- `PUT /api/categories/:id` - Update category
+- `DELETE /api/categories/:id` - Delete category
 
-### File Upload
-- `POST /api/upload/profile-picture` - Upload profile picture (Protected)
+### Analytics
+- `GET /api/analytics` - Get comprehensive analytics
+- `GET /api/analytics/monthly-summary` - Get monthly summary
+- `GET /api/analytics/categories` - Get category analytics
 
-### Admin
-- `GET /api/admin/overview` - Get admin overview (Admin only)
+## 🛠️ Technologies Used
 
-## 🔐 Authentication
+### Frontend
+- **React 19.1.1** - UI library
+- **Vite** - Build tool and dev server
+- **TailwindCSS 4.1.14** - Styling framework
+- **React Router DOM** - Client-side routing
+- **Heroicons** - Icon library
 
-The API uses JWT (JSON Web Tokens) for authentication. Include the token in the Authorization header:
+### Backend
+- **Node.js** - Runtime environment
+- **Express.js 5.1.0** - Web framework
+- **MongoDB** - Database
+- **Mongoose 8.18.2** - MongoDB object modeling
+- **JWT** - Authentication
+- **bcryptjs** - Password hashing
+- **Swagger** - API documentation
 
+### Development Tools
+- **Nodemon** - Auto-restart server
+- **ESLint** - Code linting
+- **Concurrently** - Run multiple commands
+
+## 🎯 Key Features Explained
+
+### Dynamic Reports System
+The reports page generates real-time analytics based on your actual transaction data:
+- **Financial Health Score**: Calculated based on savings rate, expense control, and income growth
+- **Personalized Recommendations**: AI-driven suggestions based on spending patterns
+- **Interactive Charts**: Monthly breakdowns and category analysis
+- **Trend Analysis**: Growth rates and spending patterns over time
+
+### Security Features
+- JWT-based authentication with secure token handling
+- Password hashing with bcrypt
+- Rate limiting to prevent abuse
+- Input validation and sanitization
+- CORS protection
+- Helmet.js for security headers
+
+## 🔧 Development
+
+### Available Scripts
+
+```bash
+# Root level
+npm run dev          # Start both frontend and backend
+npm run server       # Start backend only
+npm run client       # Start frontend only
+npm run build        # Build for production
+
+# Backend only
+cd backend
+npm run dev          # Start with nodemon
+npm start           # Start with node
+
+# Frontend only
+cd frontend
+npm run dev         # Start dev server
+npm run build       # Build for production
+npm run preview     # Preview production build
 ```
-Authorization: Bearer <your-jwt-token>
-```
 
-## 📊 Transaction Schema
+### Database Schema
 
-```json
+#### User Model
+```javascript
 {
-  "title": "Groceries",
-  "amount": -50,
-  "type": "expense",
-  "category": "Food",
-  "description": "Weekly grocery shopping",
-  "date": "2025-01-27T10:00:00Z"
+  name: String,
+  email: String (unique),
+  password: String (hashed),
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+#### Transaction Model
+```javascript
+{
+  user: ObjectId (ref: User),
+  type: String (income/expense),
+  amount: Number,
+  category: String,
+  description: String,
+  date: Date,
+  createdAt: Date
 }
 ```
 
 ## 🚀 Deployment
 
-### Deploy to Render
+### Backend Deployment (Heroku/Railway)
+1. Set environment variables in your hosting platform
+2. Ensure MongoDB Atlas allows connections from hosting IP
+3. Deploy the backend folder
 
-1. **Create a new Web Service on Render**
-2. **Connect your GitHub repository**
-3. **Configure environment variables** in Render dashboard:
-   - `MONGODB_URI` - Your MongoDB connection string
-   - `JWT_SECRET` - A secure random string
-   - `JWT_EXPIRE` - Token expiration (e.g., "7d")
-   - `CLOUDINARY_CLOUD_NAME` - Your Cloudinary cloud name
-   - `CLOUDINARY_API_KEY` - Your Cloudinary API key
-   - `CLOUDINARY_API_SECRET` - Your Cloudinary API secret
-   - `NODE_ENV` - Set to "production"
-
-4. **Deploy**
-
-The API will be available at your Render URL (e.g., `https://your-app.onrender.com`)
-
-## 🧪 Testing
-
-You can test the API using:
-- **Swagger UI**: Interactive testing at `/docs`
-- **Postman**: Import the API collection
-- **cURL**: Command-line testing
-
-### Example: Register a new user
-```bash
-curl -X POST http://localhost:5000/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "John Doe",
-    "email": "john@example.com",
-    "password": "password123"
-  }'
-```
-
-## 📁 Project Structure
-
-```
-src/
-├── config/
-│   ├── database.js      # MongoDB connection
-│   ├── cloudinary.js    # Cloudinary configuration
-│   └── swagger.js       # Swagger documentation config
-├── controllers/
-│   ├── authController.js
-│   ├── transactionController.js
-│   ├── categoryController.js
-│   ├── uploadController.js
-│   └── adminController.js
-├── middleware/
-│   ├── auth.js          # JWT authentication
-│   ├── validation.js    # Zod validation
-│   ├── upload.js        # Multer configuration
-│   └── errorHandler.js  # Error handling
-├── models/
-│   ├── User.js          # User model
-│   └── Transaction.js   # Transaction model
-├── routes/
-│   ├── authRoutes.js
-│   ├── transactionRoutes.js
-│   ├── categoryRoutes.js
-│   ├── uploadRoutes.js
-│   └── adminRoutes.js
-├── utils/
-│   └── generateToken.js  # JWT token generation
-├── validators/
-│   └── schemas.js       # Zod validation schemas
-└── server.js            # Main server file
-```
-
-## 🔒 Security Features
-
-- **JWT Authentication**: Secure token-based authentication
-- **Password Hashing**: bcrypt for password security
-- **Rate Limiting**: Prevents abuse and DDoS attacks
-- **CORS**: Cross-origin resource sharing protection
-- **Helmet**: Security headers
-- **Input Validation**: Zod schema validation
-- **Error Handling**: Comprehensive error handling
+### Frontend Deployment (Vercel/Netlify)
+1. Build the frontend: `npm run build`
+2. Update API base URL in `frontend/src/services/api.js`
+3. Deploy the built files
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+2. Create a feature branch: `git checkout -b feature-name`
+3. Commit changes: `git commit -m 'Add feature'`
+4. Push to branch: `git push origin feature-name`
+5. Submit a pull request
 
-## 📄 License
+## 📝 License
 
 This project is licensed under the ISC License.
 
-## 🆘 Support
+## 🆘 Troubleshooting
 
-If you encounter any issues or have questions, please:
-1. Check the API documentation at `/docs`
-2. Review the error messages
-3. Check your environment variables
-4. Ensure MongoDB is running and accessible
+### Common Issues
+
+1. **MongoDB Connection Error**
+   - Ensure your IP is whitelisted in MongoDB Atlas
+   - Check your connection string in the `.env` file
+   - Verify your MongoDB Atlas cluster is running
+
+2. **Port Already in Use**
+   - Kill processes using port 5000: `npx kill-port 5000`
+   - Or change the PORT in your `.env` file
+
+3. **Module Not Found Errors**
+   - Run `npm install` in both root and backend directories
+   - Clear node_modules and reinstall if needed
+
+## 📞 Support
+
+If you encounter any issues or have questions:
+1. Check the troubleshooting section above
+2. Review the API documentation at `/docs`
+3. Open an issue in the repository
 
 ---
 
-**Happy coding! 🎉**
-
+**Built with ❤️ for better financial management**

@@ -16,12 +16,13 @@ import transactionRoutes from './routes/transactionRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import analyticsRoutes from './routes/analyticsRoutes.js';
 
 // Import middleware
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 
-// Load environment variables
-dotenv.config();
+// Load environment variables from backend directory
+dotenv.config({ path: './backend/.env' });
 
 // Connect to database
 connectDB();
@@ -33,8 +34,9 @@ app.use(helmet());
 
 // CORS configuration
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-       ['http://localhost:3000', 'http://localhost:3001'],
+  origin: process.env.NODE_ENV === 'production'
+    ? (process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',') : [])
+    : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5173'],
     credentials: true
 }));
 
@@ -80,6 +82,7 @@ app.use('/api/transactions', transactionRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // Root endpoint
 app.get('/', (req, res) => {
@@ -99,8 +102,8 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
-  console.log(`📚 API Documentation available at http://localhost:${PORT}/docs`);
-  console.log(`🏥 Health check available at http://localhost:${PORT}/health`);
+  // console.log(`📚 API Documentation available at http://localhost:${PORT}/docs`);
+  // console.log(`🏥 Health check available at http://localhost:${PORT}/health`);
 });
 
 export default app;

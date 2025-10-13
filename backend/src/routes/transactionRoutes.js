@@ -5,6 +5,7 @@ import {
   createTransaction,
   updateTransaction,
   deleteTransaction,
+  getStats,
   getMonthlySummary
 } from '../controllers/transactionController.js';
 import { protect } from '../middleware/auth.js';
@@ -16,6 +17,10 @@ const router = express.Router();
 //  GET /api/transactions
 
 router.get('/', protect, getTransactions);
+
+//  GET /api/transactions/stats
+
+router.get('/stats', protect, getStats);
 
 //  GET /api/transactions/monthly-summary
 

@@ -161,6 +161,84 @@ const deleteTransaction = async (req, res, next) => {
   }
 };
 
+// Get transaction statistics for dashboard
+
+const getStats = async (req, res, next) => {
+  try {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    
+    // Get current month transactions
+    const startOfMonth = new Date(currentYear, currentMonth, 1);
+    const endOfMonth = new Date(currentYear, currentMonth + 1, 0, 23, 59, 59);
+
+    const monthlyTransactions = await Transaction.find({
+      user: req.user._id,
+      date: {
+        $gte: startOfMonth,
+        $lte: endOfMonth
+      }
+    });
+
+    // Get all transactions for total balance calculation
+    const allTransactions = await Transaction.find({
+      user: req.user._id
+    });
+
+    // Calculate stats
+    let monthlyIncome = 0;
+    let monthlyExpenses = 0;
+    let totalBalance = 0;
+
+    monthlyTransactions.forEach(transaction => {
+      if (transaction.type === 'income') {
+        monthlyIncome += transaction.amount;
+      } else {
+        monthlyExpenses += transaction.amount;
+      }
+    });
+
+    allTransactions.forEach(transaction => {
+      if (transaction.type === 'income') {
+        totalBalance += transaction.amount;
+      } else {
+        totalBalance -= transaction.amount;
+      }
+    });
+
+    // Get category breakdown for current month
+    const categoryBreakdown = {};
+    monthlyTransactions.forEach(transaction => {
+      const category = transaction.category;
+      if (!categoryBreakdown[category]) {
+        categoryBreakdown[category] = 0;
+      }
+      if (transaction.type === 'expense') {
+        categoryBreakdown[category] += transaction.amount;
+      }
+    });
+
+    res.json({
+      success: true,
+      data: {
+        monthlyIncome,
+        monthlyExpenses,
+        monthlyNet: monthlyIncome - monthlyExpenses,
+        totalBalance,
+        transactionCount: monthlyTransactions.length,
+        categoryBreakdown,
+        period: {
+          month: currentMonth + 1,
+          year: currentYear
+        }
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Get monthly summary
 
 const getMonthlySummary = async (req, res, next) => {
@@ -231,6 +309,7 @@ export {
   createTransaction,
   updateTransaction,
   deleteTransaction,
+  getStats,
   getMonthlySummary
 };
 
