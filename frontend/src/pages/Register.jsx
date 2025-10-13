@@ -126,6 +126,7 @@ export default function Register() {
                 />
               </div>
 
+
               <div className="form-group">
                 <label htmlFor="password" className="form-label">
                   Password
